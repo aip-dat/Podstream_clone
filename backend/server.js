@@ -1,6 +1,9 @@
 import express from "express";
 import dotenv from "dotenv";
-import authRoute from "./routes/authRoute.js";
+import cookieParser from "cookie-parser";
+import authRoutes from "./routes/authRoutes.js";
+import messageRoutes from "./routes/messageRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 import connectMongoDB from "./db/connectMongoDB.js";
 
 dotenv.config();
@@ -12,8 +15,12 @@ app.get("/", (req, res) => {
 });
 
 app.use(express.json()); //to parse json request with JSON payload from req.body
+app.use(cookieParser());
 
-app.use("/api/auth", authRoute);
+app.use("/api/auth", authRoutes);
+app.use("/api/messages", messageRoutes);
+app.use("/api/users", userRoutes);
+
 
 app.listen(PORT, () => {
   connectMongoDB();
